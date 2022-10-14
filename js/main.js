@@ -47,18 +47,49 @@ let cardsQuantityIndex = 0;
 let cardsQuantity = cardsQuantityArr[cardsQuantityIndex] / 2;
 
 //Start Game
-const startBtn = document.querySelector('.start-button');
+const startPage = document.querySelector('.start-page');
+const startBtn = document.querySelector('.start-btn');
+const playingFieldSection = document.querySelector('.playing-field');
+const resultsPage = document.querySelector('.results');
+
+createNavbarItems(cardsQuantityArr);
 
 startBtn.addEventListener('click', startGame);
-startBtn.addEventListener('click', () => console.log(cardsQuantityIndex));
 
 function startGame() {
+  //hide start page
+  startPage.classList.add('anim-hide-short');
+
   let numberOfPairs = getNumberOfPairs();
   cardsQuantityIndex = cardsQuantityArr.indexOf(numberOfPairs);
   cardsQuantity = numberOfPairs / 2;
+
+  setTimeout(() => {
+    startPage.classList.add('hidden');
+    generatePlayingField();
+
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', flipcard);
+    });
+    document.querySelector('.playing-field').classList.add('anim-show-short');
+  }, 1250);
 }
 
-const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
+function generatePlayingField() {
+  const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
+
+  // Add cards to field
+  for (let i = 0; i < cardsQuantity * 2; i++) {
+    createCard(cardsImgsArr[i]);
+  }
+  //Create playing field
+  createGameField(
+    playingField[cardsQuantityIndex][0],
+    playingField[cardsQuantityIndex][1]
+  );
+}
 
 function generateCardsData(arr, num) {
   let cardsData = arr.sort(() => 0.5 - Math.random()).slice(0, num);
@@ -75,16 +106,9 @@ function getNumberOfPairs() {
     return Number(checkedNavBtn.value);
   } else {
     alert('Please select number of pairs');
+    window.location.reload();
   }
 }
-
-//Start page:
-
-function showStartPage() {}
-
-function hideStartPage() {}
-
-createNavbarItems(cardsQuantityArr);
 
 function createNavbarItems(arr) {
   const navbar = document.querySelector('.start-page__navbar');
@@ -101,29 +125,24 @@ function createNavbarItems(arr) {
   }
 }
 
-// add cards to field
-for (let i = 0; i < cardsQuantity * 2; i++) {
-  createCard(cardsImgsArr[i], cardsImgsArr[i]);
-}
+// -------------------------------------------
 
-function createCard(item, dataId) {
-  const card = document.createElement('div');
-  card.innerHTML = `
-	<div class="card" data-id="${dataId}">
+// Playing field
+function createCard(item) {
+  document.querySelector('.playing-field').insertAdjacentHTML(
+    'beforeend',
+    `
+		<div class="card" data-id="${item.split('.')[0]}">
 			<img class="card__front-face" src="./images/${item}" alt="">
-		<div class="card__back-face"></div>
-	</div>`;
-  document.querySelector('.game-field').append(card);
+			<div class="card__back-face"></div>
+		</div>
+		`
+  );
 }
-
-createGameField(
-  playingField[cardsQuantityIndex][0],
-  playingField[cardsQuantityIndex][1]
-);
 
 function createGameField(rows, columns) {
   //styling Playing Field
-  const GameFieldStyle = document.querySelector('.game-field');
+  const GameFieldStyle = document.querySelector('.playing-field');
   GameFieldStyle.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
   GameFieldStyle.style.gridTemplateRovs = `repeat(${rows}, 1fr)`;
 
@@ -135,7 +154,31 @@ function createGameField(rows, columns) {
   }
 }
 
-const cards = document.querySelectorAll('.card');
+// -------------------------------------------
+
+// Creating results page
+function createResultsPage() {
+  resultsPage.insertAdjacentHTML(
+    'beforeend',
+    `
+		<div class="results-container">
+			<p class="results-win-text">
+				Congratulations, you passed this level !!!
+			</p>
+			<p class="results-win-text">
+				Try another levels ;)
+			</p>
+			<div class="restart-btn-container">
+				<button class="restart-btn button">Continue...</button>
+			</div>
+		</div>
+		`
+  );
+  resultsPage.classList.remove('hidden');
+  resultsPage.classList.add('anim-show');
+}
+
+// -------------------------------------------
 
 let pairsCounter = 0;
 let hasFlippedCard = false;
@@ -158,17 +201,15 @@ const flipcard = e => {
   if (!hasFlippedCard) {
     hasFlippedCard = true;
     firstCard = target;
+    firstCard.classList.add('locked');
   } else {
     hasFlippedCard = false;
     secondCard = target;
+    secondCard.classList.add('locked');
 
     checkForMatch();
   }
 };
-
-cards.forEach(card => {
-  card.addEventListener('click', flipcard);
-});
 
 const checkForMatch = () => {
   const areEqual = firstCard.dataset.id === secondCard.dataset.id;
@@ -180,23 +221,33 @@ const checkWin = () => {
   if (pairsCounter < cardsQuantity) {
     console.log(pairsCounter);
   } else {
-    alert('Passed!');
-    window.location.reload();
+    initResultsPage();
   }
 };
 
+function initResultsPage() {
+  playingFieldSection.remove();
+  createResultsPage();
+  document.querySelector('.restart-btn').addEventListener('click', () => {
+    resultsPage.classList.add('anim-hide-short');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1250);
+  });
+}
+
 function disableCards() {
+  boardLocked = true;
   firstCard.removeEventListener('click', flipcard);
   secondCard.removeEventListener('click', flipcard);
-  boardLocked = true;
   // console.log('CARDS ARE EQUAL');
   setTimeout(() => {
     firstCard.classList.add('disabled');
     secondCard.classList.add('disabled');
-    boardLocked = false;
     setTimeout(() => {
       checkWin();
-    }, 1000);
+      boardLocked = false;
+    }, 10);
   }, 1000);
 }
 
@@ -204,8 +255,8 @@ function unflipCards() {
   boardLocked = true;
   // console.log('CARDS ARE NOT EQUAL');
   setTimeout(() => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
+    firstCard.classList.remove('flip', 'locked');
+    secondCard.classList.remove('flip', 'locked');
     boardLocked = false;
   }, 1000);
 }

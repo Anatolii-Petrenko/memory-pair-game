@@ -7,9 +7,10 @@
 }
 
 .disabled {
+  opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 500ms;
+  transition: all 1000ms;
 }
 
 .hidden {
@@ -18,6 +19,39 @@
 
 .locked {
   pointer-events: none;
+}
+
+.anim-show {
+  animation-name: show-element;
+  animation-duration: 2500ms;
+}
+
+.anim-show-short {
+  animation-name: show-element;
+  animation-duration: 1250ms;
+}
+
+@keyframes show-element {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.anim-hide-short {
+  animation-name: hide-element;
+  animation-duration: 1250ms;
+}
+
+@keyframes hide-element {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .wrapper {
@@ -107,12 +141,12 @@
 }
 
 .start-page__navbar input[type='radio']:checked + label {
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(171, 197, 178);
   border: 1px solid rgb(180, 180, 180);
   font-size: 1.2em;
 }
 
-.start-button {
+.button {
   width: 10rem;
   height: 4rem;
   background: rgb(210, 210, 210);
@@ -120,7 +154,7 @@
   border: 1px solid rgb(180, 180, 180);
 }
 
-.start-button:hover {
+.button:hover {
   background: rgb(200, 200, 200);
   box-shadow: 1px 1px 4px rgb(150, 150, 150);
   cursor: pointer;
@@ -132,11 +166,11 @@
   height: calc(4rem * 1.1);
   background: rgb(200, 200, 200);
   box-shadow: 1px 1px 4px rgb(150, 150, 150);
-  color: rgb(79, 198, 81);
+  color: rgb(123, 172, 124);
   font-size: 1.2em;
 }
 
-.game-field {
+.playing-field {
   display: grid;
   gap: 10px;
   perspective: 1000px;
@@ -152,9 +186,6 @@
   transition: transform 600ms;
   transform-style: preserve-3d;
   cursor: pointer;
-}
-
-.card:hover {
 }
 
 .card:active {
@@ -177,7 +208,7 @@
   background: url('../images/fruits-card-back.svg');
   background-repeat: no-repeat;
   background-size: 90% 90%;
-  opacity: 60%;
+  opacity: 0.6;
   background-position: 50% 50%;
   border-radius: 10px;
   -webkit-transform: rotateY(0deg);
@@ -185,7 +216,7 @@
 }
 
 .card__back-face:hover {
-  opacity: 80%;
+  opacity: 0.8;
   border: 1px solid rgb(186, 186, 186);
   /* background: rgb(200, 200, 200); */
   box-shadow: 2px 2px 6px rgb(150, 150, 150);
@@ -196,7 +227,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 8%;
+  padding: 15%;
   top: 0;
   left: 0;
   backface-visibility: hidden;
@@ -210,4 +241,25 @@
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
   opacity: 80%;
+}
+
+.results-container {
+  width: 60vw;
+  height: 60vh;
+  background: rgb(216, 216, 216);
+  border-radius: 10px;
+  border: 1px solid rgb(180, 180, 180);
+  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.results-win-text {
+  font-size: 2rem;
+  padding: 10px;
+  text-align: center;
+}
+.restart-btn-container {
+  margin-top: 10vh;
 }
