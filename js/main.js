@@ -232,7 +232,7 @@ function initResultsPage() {
     resultsPage.classList.add('anim-hide-short');
     setTimeout(() => {
       window.location.reload();
-    }, 1250);
+    }, 1000);
   });
 }
 
