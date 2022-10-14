@@ -9,16 +9,20 @@
 .disabled {
   visibility: hidden;
   pointer-events: none;
-  transition: all 1000ms;
+  transition: all 500ms;
 }
 
 .hidden {
   display: none;
 }
 
+.locked {
+  pointer-events: none;
+}
+
 .wrapper {
   text-align: center;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,7 +32,7 @@
 
 .header,
 .footer {
-  padding: 10px 0px;
+  padding: 15px 0px;
 }
 
 .header__content {
@@ -44,10 +48,96 @@
 .footer__content {
   font-size: 12px;
 }
+
+.start-page {
+  margin: 10 auto;
+}
+
+.start-page__title {
+  margin: 10px auto;
+}
+
+.start-page__title-text {
+  font-size: 2rem;
+}
+
+.start-page__navbar {
+  width: 80vw;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-page__navbar input[type='radio'] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.start-page__navbar label {
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(210, 210, 210);
+  border-radius: 5px;
+}
+
+.start-page__navbar-label-content {
+  display: block;
+  font-size: 1.2em;
+}
+
+.start-page__navbar label:hover {
+  background: rgb(200, 200, 200);
+  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.start-page__navbar input[type='radio']:focus + label {
+  background: rgb(190, 190, 190);
+  border: 1px solid blue;
+  font-size: 1.2em;
+}
+
+.start-page__navbar input[type='radio']:checked + label {
+  background-color: rgb(200, 200, 200);
+  border: 1px solid rgb(180, 180, 180);
+  font-size: 1.2em;
+}
+
+.start-button {
+  width: 10rem;
+  height: 4rem;
+  background: rgb(210, 210, 210);
+  border-radius: 10px;
+  border: 1px solid rgb(180, 180, 180);
+}
+
+.start-button:hover {
+  background: rgb(200, 200, 200);
+  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.button-active {
+  width: calc(10rem * 1.1);
+  height: calc(4rem * 1.1);
+  background: rgb(200, 200, 200);
+  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  color: rgb(79, 198, 81);
+  font-size: 1.2em;
+}
+
 .game-field {
   display: grid;
-  /* grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr); */
   gap: 10px;
   perspective: 1000px;
 }
@@ -57,20 +147,19 @@
   background: rgb(210, 210, 210);
   border-radius: 10px;
   transform: scale(1);
-  -webkit-transition: -webkit-transform 700ms;
-  -webkit-transition: transform 700ms;
-  transition: transform 700ms;
+  -webkit-transition: -webkit-transform 600ms;
+  -webkit-transition: transform 600ms;
+  transition: transform 600ms;
   transform-style: preserve-3d;
   cursor: pointer;
 }
 
 .card:hover {
-  background: rgb(200, 200, 200);
 }
 
 .card:active {
-  -webkit-transform: scale(0.95);
-  transform: scale(0.95);
+  -webkit-transform: scale(0.96);
+  transform: scale(0.96);
   -webkit-transition: -webkit-transform 200ms;
   -webkit-transition: transform 200ms;
   transition: transform 200ms;
@@ -87,11 +176,19 @@
 .card__back-face {
   background: url('../images/fruits-card-back.svg');
   background-repeat: no-repeat;
-  background-size: 95% 95%;
+  background-size: 90% 90%;
   opacity: 60%;
   background-position: 50% 50%;
+  border-radius: 10px;
   -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
+}
+
+.card__back-face:hover {
+  opacity: 80%;
+  border: 1px solid rgb(186, 186, 186);
+  /* background: rgb(200, 200, 200); */
+  box-shadow: 2px 2px 6px rgb(150, 150, 150);
 }
 
 .card__front-face,
@@ -99,7 +196,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 15px;
+  padding: 8%;
   top: 0;
   left: 0;
   backface-visibility: hidden;

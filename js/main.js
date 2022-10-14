@@ -41,14 +41,22 @@ const playingField = [
   [7, 8],
 ];
 
-const cardsQuantityArr = [];
+const cardsQuantityArr = playingField.map(item => item[0] * item[1]);
 
-for (item of playingField) {
-  cardsQuantityArr.push(item[0] * item[1]);
+let cardsQuantityIndex = 0;
+let cardsQuantity = cardsQuantityArr[cardsQuantityIndex] / 2;
+
+//Start Game
+const startBtn = document.querySelector('.start-button');
+
+startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('click', () => console.log(cardsQuantityIndex));
+
+function startGame() {
+  let numberOfPairs = getNumberOfPairs();
+  cardsQuantityIndex = cardsQuantityArr.indexOf(numberOfPairs);
+  cardsQuantity = numberOfPairs / 2;
 }
-
-const cardsQuantityIndex = 2;
-const cardsQuantity = cardsQuantityArr[cardsQuantityIndex] / 2;
 
 const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
 
@@ -56,6 +64,41 @@ function generateCardsData(arr, num) {
   let cardsData = arr.sort(() => 0.5 - Math.random()).slice(0, num);
   cardsData = [...cardsData, ...cardsData].sort(() => 0.5 - Math.random());
   return cardsData;
+}
+
+function getNumberOfPairs() {
+  const checkedNavBtn = document.querySelector(
+    'input[name="cards-quantity"]:checked'
+  );
+  if (checkedNavBtn !== null) {
+    startBtn.classList.add('button-active', 'locked');
+    return Number(checkedNavBtn.value);
+  } else {
+    alert('Please select number of pairs');
+  }
+}
+
+//Start page:
+
+function showStartPage() {}
+
+function hideStartPage() {}
+
+createNavbarItems(cardsQuantityArr);
+
+function createNavbarItems(arr) {
+  const navbar = document.querySelector('.start-page__navbar');
+  for (item of arr) {
+    navbar.insertAdjacentHTML(
+      'beforeend',
+      `
+			<input type="radio" id="${item}" name="cards-quantity" value="${item}">
+			<label for="${item}">
+				<span class="start-page__navbar-label-content">${item}</span>
+			</label>
+			`
+    );
+  }
 }
 
 // add cards to field
@@ -87,8 +130,8 @@ function createGameField(rows, columns) {
   //styling card Template
   const cardStyle = document.querySelectorAll('.card');
   for (item of cardStyle) {
-    item.style.width = `calc(70vw / ${columns})`;
-    item.style.height = `calc(70vh / ${rows})`;
+    item.style.width = `calc(60vmin / ${columns})`;
+    item.style.height = `calc(70vmin / ${rows})`;
   }
 }
 
