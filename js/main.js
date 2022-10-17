@@ -31,6 +31,7 @@ const imgsUrl = [
 
 const playingField = [
   [2, 2],
+  [2, 3],
   [3, 4],
   [4, 4],
   [4, 5],
@@ -54,60 +55,49 @@ const resultsPage = document.querySelector('.results');
 
 createNavbarItems(cardsQuantityArr);
 
-startBtn.addEventListener('click', startGame);
+//get data fron radiobutton
+const nawRadioBtn = document.querySelectorAll('input[name="cards-quantity"]');
 
-function startGame() {
+for (const radioBtn of nawRadioBtn) {
+  radioBtn.addEventListener('change', () => {
+    let numberOfPairs = Number(radioBtn.value);
+    cardsQuantityIndex = cardsQuantityArr.indexOf(numberOfPairs);
+    cardsQuantity = numberOfPairs / 2;
+    startBtn.classList.remove('button-disabled');
+  });
+}
+
+startBtn.addEventListener('click', startGameFromStartPage);
+
+function startLevel() {
+  if (!playingFieldSection.classList.contains('playing-field-grid')) {
+    playingFieldSection.classList.add('playing-field-grid');
+  }
+
+  generatePlayingField();
+
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    card.addEventListener('click', flipcard);
+  });
+  document.querySelector('.playing-field').classList.add('anim-show-short');
+}
+
+function startGameFromStartPage() {
+  console.log(
+    `cardsQuantityIndex = ${cardsQuantityIndex}`,
+    `\ncardsQuantity = ${cardsQuantity}`
+  );
+
+  startBtn.classList.add('button-active', 'locked');
   //hide start page
   startPage.classList.add('anim-hide-short');
 
-  let numberOfPairs = getNumberOfPairs();
-  cardsQuantityIndex = cardsQuantityArr.indexOf(numberOfPairs);
-  cardsQuantity = numberOfPairs / 2;
-
   setTimeout(() => {
     startPage.classList.add('hidden');
-    generatePlayingField();
-
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-      card.addEventListener('click', flipcard);
-    });
-    document.querySelector('.playing-field').classList.add('anim-show-short');
+    startLevel();
   }, 1250);
-}
-
-function generatePlayingField() {
-  const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
-
-  // Add cards to field
-  for (let i = 0; i < cardsQuantity * 2; i++) {
-    createCard(cardsImgsArr[i]);
-  }
-  //Create playing field
-  createGameField(
-    playingField[cardsQuantityIndex][0],
-    playingField[cardsQuantityIndex][1]
-  );
-}
-
-function generateCardsData(arr, num) {
-  let cardsData = arr.sort(() => 0.5 - Math.random()).slice(0, num);
-  cardsData = [...cardsData, ...cardsData].sort(() => 0.5 - Math.random());
-  return cardsData;
-}
-
-function getNumberOfPairs() {
-  const checkedNavBtn = document.querySelector(
-    'input[name="cards-quantity"]:checked'
-  );
-  if (checkedNavBtn !== null) {
-    startBtn.classList.add('button-active', 'locked');
-    return Number(checkedNavBtn.value);
-  } else {
-    alert('Please select number of pairs');
-    window.location.reload();
-  }
 }
 
 function createNavbarItems(arr) {
@@ -117,7 +107,7 @@ function createNavbarItems(arr) {
       'beforeend',
       `
 			<input type="radio" id="${item}" name="cards-quantity" value="${item}">
-			<label for="${item}">
+			<label class="anim-show" for="${item}">
 				<span class="start-page__navbar-label-content">${item}</span>
 			</label>
 			`
@@ -127,8 +117,28 @@ function createNavbarItems(arr) {
 
 // -------------------------------------------
 
+function generateCardsData(arr, num) {
+  let cardsData = arr.sort(() => 0.5 - Math.random()).slice(0, num);
+  cardsData = [...cardsData, ...cardsData].sort(() => 0.5 - Math.random());
+  return cardsData;
+}
+
+function generatePlayingField() {
+  const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
+
+  // Add cards to field
+  for (let i = 0; i < cardsQuantity * 2; i++) {
+    createCardTemplate(cardsImgsArr[i]);
+  }
+  //Create playing field
+  createGameField(
+    playingField[cardsQuantityIndex][0],
+    playingField[cardsQuantityIndex][1]
+  );
+}
+
 // Playing field
-function createCard(item) {
+function createCardTemplate(item) {
   document.querySelector('.playing-field').insertAdjacentHTML(
     'beforeend',
     `
@@ -166,10 +176,14 @@ function createResultsPage() {
 				Congratulations, you passed this level !!!
 			</p>
 			<p class="results-win-text">
+			Steps used: ${stepsCounter}
+			</p>
+			<p class="results-win-text">
 				Try another levels ;)
 			</p>
-			<div class="restart-btn-container">
-				<button class="restart-btn button">Continue...</button>
+			<div class="btn-container">
+				<button class="continue-btn button">Next...</button>
+				<button class="restart-btn button">Restart</button>
 			</div>
 		</div>
 		`
@@ -181,6 +195,7 @@ function createResultsPage() {
 // -------------------------------------------
 
 let pairsCounter = 0;
+let stepsCounter = 0;
 let hasFlippedCard = false;
 let boardLocked = false;
 let firstCard, secondCard;
@@ -206,7 +221,7 @@ const flipcard = e => {
     hasFlippedCard = false;
     secondCard = target;
     secondCard.classList.add('locked');
-
+    stepsCounter++;
     checkForMatch();
   }
 };
@@ -218,23 +233,10 @@ const checkForMatch = () => {
 
 const checkWin = () => {
   pairsCounter++;
-  if (pairsCounter < cardsQuantity) {
-    console.log(pairsCounter);
-  } else {
+  if (pairsCounter >= cardsQuantity) {
     initResultsPage();
   }
 };
-
-function initResultsPage() {
-  playingFieldSection.remove();
-  createResultsPage();
-  document.querySelector('.restart-btn').addEventListener('click', () => {
-    resultsPage.classList.add('anim-hide-short');
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  });
-}
 
 function disableCards() {
   boardLocked = true;
@@ -259,4 +261,34 @@ function unflipCards() {
     secondCard.classList.remove('flip', 'locked');
     boardLocked = false;
   }, 1000);
+}
+
+function initResultsPage() {
+  playingFieldSection.innerHTML = '';
+
+  createResultsPage();
+
+  if (cardsQuantityIndex !== cardsQuantityArr.length - 1) {
+    document.querySelector('.continue-btn').addEventListener('click', () => {
+      resultsPage.classList.add('locked', 'anim-hide-short');
+      cardsQuantityIndex++;
+      cardsQuantity = cardsQuantityArr[cardsQuantityIndex] / 2;
+      pairsCounter = 0;
+      stepsCounter = 0;
+      setTimeout(() => {
+        resultsPage.innerHTML = '';
+        resultsPage.classList.remove('locked', 'anim-hide-short');
+        startLevel();
+      }, 1250);
+    });
+  } else {
+    document.querySelector('.continue-btn').classList.add('button-disabled');
+  }
+
+  document.querySelector('.restart-btn').addEventListener('click', () => {
+    resultsPage.classList.add('locked', 'anim-hide-short');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  });
 }

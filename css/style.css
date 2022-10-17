@@ -1,9 +1,9 @@
-* {
-  box-sizing: border-box;
-  font-family: 'Berkshire Swash', cursive;
-  font-size: 18px;
-  font-style: italic;
-  color: rgb(101, 101, 101);
+:root {
+  --main-color: rgb(230, 230, 230);
+  --button-color: rgb(210, 210, 210);
+  --button-hover-color: rgb(200, 200, 200);
+  --button-active-color: rgb(200, 200, 200);
+  --button-box-shadow-color: rgb(150, 150, 150);
 }
 
 .disabled {
@@ -54,6 +54,18 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+  font-family: 'Berkshire Swash', cursive;
+  font-size: 18px;
+  font-style: italic;
+  color: rgb(101, 101, 101);
+}
+
+.body {
+  background-color: var(main-color);
+}
+
 .wrapper {
   text-align: center;
   height: 100vh;
@@ -61,7 +73,6 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(229, 229, 229);
 }
 
 .header,
@@ -118,7 +129,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgb(210, 210, 210);
+  background: var(--button-color);
   border-radius: 5px;
 }
 
@@ -128,15 +139,15 @@
 }
 
 .start-page__navbar label:hover {
-  background: rgb(200, 200, 200);
-  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  background: var(--button-hover-color);
+  box-shadow: 1px 1px 4px var(--button-box-shadow-color);
   cursor: pointer;
   font-size: 1.2em;
 }
 
 .start-page__navbar input[type='radio']:focus + label {
   background: rgb(190, 190, 190);
-  border: 1px solid blue;
+  border: 1px solid rgb(37, 37, 132);
   font-size: 1.2em;
 }
 
@@ -149,14 +160,23 @@
 .button {
   width: 10rem;
   height: 4rem;
-  background: rgb(210, 210, 210);
+  background: var(--button-color);
   border-radius: 10px;
   border: 1px solid rgb(180, 180, 180);
+  margin: 5px;
+}
+
+.button-disabled {
+  pointer-events: none;
+  background: rgb(240, 240, 240);
+  box-shadow: 1px 1px 4px rgb(225, 225, 225);
+  border: 1px solid rgb(230, 230, 230);
+  color: rgb(180, 180, 180);
 }
 
 .button:hover {
-  background: rgb(200, 200, 200);
-  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  background: var(--button-hover-color);
+  box-shadow: 1px 1px 4px var(--button-box-shadow-color);
   cursor: pointer;
   font-size: 1.2em;
 }
@@ -164,13 +184,14 @@
 .button-active {
   width: calc(10rem * 1.1);
   height: calc(4rem * 1.1);
-  background: rgb(200, 200, 200);
-  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  background: var(--button-active-color);
+  box-shadow: 1px 1px 4px var(--button-box-shadow-color);
   color: rgb(123, 172, 124);
+  opacity: 50%;
   font-size: 1.2em;
 }
 
-.playing-field {
+.playing-field-grid {
   display: grid;
   gap: 10px;
   perspective: 1000px;
@@ -178,7 +199,7 @@
 
 .card {
   position: relative;
-  background: rgb(210, 210, 210);
+  background: var(--button-color);
   border-radius: 10px;
   transform: scale(1);
   -webkit-transition: -webkit-transform 600ms;
@@ -218,8 +239,7 @@
 .card__back-face:hover {
   opacity: 0.8;
   border: 1px solid rgb(186, 186, 186);
-  /* background: rgb(200, 200, 200); */
-  box-shadow: 2px 2px 6px rgb(150, 150, 150);
+  box-shadow: 2px 2px 6px var(--button-box-shadow-color);
 }
 
 .card__front-face,
@@ -246,10 +266,10 @@
 .results-container {
   width: 60vw;
   height: 60vh;
-  background: rgb(216, 216, 216);
+  background: rgba(216, 216, 216, 0.6);
   border-radius: 10px;
   border: 1px solid rgb(180, 180, 180);
-  box-shadow: 1px 1px 4px rgb(150, 150, 150);
+  box-shadow: 1px 1px 4px var(--button-box-shadow-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -260,6 +280,9 @@
   padding: 10px;
   text-align: center;
 }
-.restart-btn-container {
+.btn-container {
   margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
