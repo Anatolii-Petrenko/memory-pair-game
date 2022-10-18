@@ -108,7 +108,7 @@ function createNavbarItems(arr) {
       `
 			<input type="radio" id="${item}" name="cards-quantity" value="${item}">
 			<label class="anim-show" for="${item}">
-				<span class="start-page__navbar-label-content">${item}</span>
+				<span class="start-page__navbar-label-content">${item / 2}</span>
 			</label>
 			`
     );
@@ -124,7 +124,7 @@ function generateCardsData(arr, num) {
 }
 
 function generatePlayingField() {
-  const cardsImgsArr = generateCardsData(imgsUrl, cardsQuantity);
+  const cardsImgsArr = generateCardsData(imgsUrl.slice(), cardsQuantity);
 
   // Add cards to field
   for (let i = 0; i < cardsQuantity * 2; i++) {
