@@ -62,13 +62,9 @@
   color: rgb(101, 101, 101);
 }
 
-html {
-  height: -webkit-fill-available;
-}
-
 body {
   background-color: var(main-color);
-  height: -webkit-fill-available;
+  min-height: -webkit-fill-available;
 }
 
 .wrapper {
