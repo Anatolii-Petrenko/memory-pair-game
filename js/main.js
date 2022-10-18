@@ -175,7 +175,7 @@ function createResultsPage() {
 			<p class="results-win-text">
 				Congratulations, you passed this level !!!
 			</p>
-			<p class="results-win-text">
+			<p class="results-win-text statistic">
 			Steps used: ${stepsCounter}
 			</p>
 			<p class="results-win-text">
