@@ -182,8 +182,8 @@ function createResultsPage() {
 				Try another levels ;)
 			</p>
 			<div class="btn-container">
-				<button class="continue-btn button">Next...</button>
 				<button class="restart-btn button">Restart</button>
+				<button class="continue-btn button">Next...</button>
 			</div>
 		</div>
 		`
