@@ -144,7 +144,7 @@ function createCardTemplate(item) {
     'beforeend',
     `
 		<div class="card" data-id="${item.split('.')[0]}">
-			<img class="card__front-face" src="./images/${item}" alt="">
+			<img class="card__front-face" src="./images/${item}" alt="" draggable="false">
 			<div class="card__back-face"></div>
 		</div>
 		`
@@ -261,7 +261,7 @@ function unflipCards() {
     firstCard.classList.remove('flip', 'locked');
     secondCard.classList.remove('flip', 'locked');
     resetBoard();
-  }, 1000);
+  }, 800);
 }
 
 const resetBoard = () => {
