@@ -294,7 +294,10 @@ function initResultsPage() {
     document.querySelector('.continue-btn').classList.add('button-disabled');
   }
 
-  document.querySelector('.restart-btn').addEventListener('click', () => {
+  const restartBtn = document.querySelector('.restart-btn');
+
+  restartBtn.addEventListener('click', () => {
+    restartBtn.classList.add('restart-btn-active');
     resultsPage.classList.add('locked', 'anim-hide-short');
     setTimeout(() => {
       window.location.reload();
