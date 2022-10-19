@@ -49,7 +49,7 @@ let cardsQuantity = cardsQuantityArr[cardsQuantityIndex] / 2;
 
 //Start Game
 const startPage = document.querySelector('.start-page');
-const startBtn = document.querySelector('.start-btn');
+const startBtn = startPage.querySelector('.start-btn');
 const playingFieldSection = document.querySelector('.playing-field');
 const resultsPage = document.querySelector('.results');
 
@@ -81,14 +81,15 @@ function startLevel() {
   cards.forEach(card => {
     card.addEventListener('click', flipcard);
   });
+
   document.querySelector('.playing-field').classList.add('anim-show-short');
 }
 
 function startGameFromStartPage() {
-  console.log(
-    `cardsQuantityIndex = ${cardsQuantityIndex}`,
-    `\ncardsQuantity = ${cardsQuantity}`
-  );
+  // console.log(
+  //   `cardsQuantityIndex = ${cardsQuantityIndex}`,
+  //   `\ncardsQuantity = ${cardsQuantity}`
+  // );
 
   startBtn.classList.add('button-active', 'locked');
   //hide start page
@@ -200,12 +201,12 @@ let hasFlippedCard = false;
 let boardLocked = false;
 let firstCard, secondCard;
 
-const flipcard = e => {
+const flipcard = event => {
   if (boardLocked) {
     return;
   }
 
-  const target = e.target.closest('.card');
+  const target = event.target.closest('.card');
 
   if (target === firstCard) {
     return;
@@ -259,10 +260,18 @@ function unflipCards() {
   setTimeout(() => {
     firstCard.classList.remove('flip', 'locked');
     secondCard.classList.remove('flip', 'locked');
-    boardLocked = false;
+    resetBoard();
   }, 1000);
 }
 
+const resetBoard = () => {
+  hasFlippedCard = boardLocked = false;
+  firstCard = secondCard = null;
+};
+
+// -------------------------------------------
+
+// Initializing results page
 function initResultsPage() {
   playingFieldSection.innerHTML = '';
 
