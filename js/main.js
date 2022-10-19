@@ -55,7 +55,7 @@ const resultsPage = document.querySelector('.results');
 
 createNavbarItems(cardsQuantityArr);
 
-//get data fron radiobutton
+//get data from radiobutton
 const nawRadioBtn = document.querySelectorAll('input[name="cards-quantity"]');
 
 for (const radioBtn of nawRadioBtn) {
@@ -67,6 +67,8 @@ for (const radioBtn of nawRadioBtn) {
   });
 }
 
+const previewChechbox = document.querySelector('.checkbox__input');
+
 startBtn.addEventListener('click', startGameFromStartPage);
 
 function startLevel() {
@@ -77,6 +79,44 @@ function startLevel() {
   generatePlayingField();
 
   const cards = document.querySelectorAll('.card');
+
+  // Preview cards
+  const cardsOpenTime = QuantityOfCards => {
+    switch (QuantityOfCards) {
+      case cardsQuantityArr[0] / 2:
+        return QuantityOfCards * 200;
+      case cardsQuantityArr[1] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[2] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[3] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[4] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[5] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[6] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[7] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[8] / 2:
+        return QuantityOfCards * 400;
+      case cardsQuantityArr[9] / 2:
+        return QuantityOfCards * 400;
+      default:
+        return 1000;
+    }
+  };
+
+  if (previewChechbox.checked) {
+    console.log('Checkbox Checked');
+    cards.forEach(card => {
+      card.classList.add('flip');
+      setTimeout(() => {
+        card.classList.remove('flip');
+      }, cardsOpenTime(cardsQuantity));
+    });
+  }
 
   cards.forEach(card => {
     card.addEventListener('click', flipcard);

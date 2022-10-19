@@ -163,6 +163,47 @@ a.footer__content:hover {
   font-size: 1.2em;
 }
 
+.checkbox-wrapper {
+  margin-top: 4vh;
+  margin-bottom: 6vh;
+}
+
+.checkbox {
+  padding-left: 1.2em;
+}
+.checkbox__input {
+  position: absolute;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.checkbox__box {
+  position: absolute;
+  margin-left: -1.6em;
+  margin-top: -0.2em;
+  width: 1.4em;
+  height: 1.4em;
+  background-color: var(--button-color);
+  border-radius: 0.2em;
+}
+
+.checkbox__box:hover {
+  cursor: pointer;
+}
+
+.checkbox__input:checked + .checkbox__box {
+  padding: 2px;
+  background-image: url(../images/tick-green-icon.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 80%;
+}
+
+.checkbox__input:focus + .checkbox__box {
+  border: #79874c;
+}
+
 .button {
   width: 10rem;
   height: 4rem;
@@ -329,7 +370,7 @@ a.footer__content:hover {
   margin: 10px;
 }
 
-@media screen and (max-width: 550px), (max-height: 600px) {
+@media screen and (max-width: 670px), (max-height: 600px) {
   .btn-container {
     margin-top: 4vh;
   }
