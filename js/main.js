@@ -35,9 +35,7 @@ const playingField = [
   [3, 4],
   [4, 4],
   [4, 5],
-  [4, 6],
   [5, 6],
-  [6, 6],
   [6, 7],
   [7, 8],
 ];
@@ -84,32 +82,31 @@ function startLevel() {
   const cardsOpenTime = QuantityOfCards => {
     switch (QuantityOfCards) {
       case cardsQuantityArr[0] / 2:
-        return QuantityOfCards * 200;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[1] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[2] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[3] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[4] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[5] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[6] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[7] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[8] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       case cardsQuantityArr[9] / 2:
-        return QuantityOfCards * 400;
+        return QuantityOfCards * 500;
       default:
         return 1000;
     }
   };
 
   if (previewChechbox.checked) {
-    console.log('Checkbox Checked');
     cards.forEach(card => {
       card.classList.add('flip');
       setTimeout(() => {
@@ -172,7 +169,7 @@ function generatePlayingField() {
     createCardTemplate(cardsImgsArr[i]);
   }
   //Create playing field
-  createGameField(
+  generatePalyingField(
     playingField[cardsQuantityIndex][0],
     playingField[cardsQuantityIndex][1]
   );
@@ -191,19 +188,43 @@ function createCardTemplate(item) {
   );
 }
 
-function createGameField(rows, columns) {
-  //styling Playing Field
-  const GameFieldStyle = document.querySelector('.playing-field');
-  GameFieldStyle.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-  GameFieldStyle.style.gridTemplateRovs = `repeat(${rows}, 1fr)`;
+function generatePalyingField(rows, columns) {
+  //Build Palying Field Grid
+  const playingFieldStyle = document.querySelector('.playing-field');
+
+  const cardStyle = document.querySelectorAll('.card');
+
+  console.log(
+    `Window width:${window.innerWidth}`,
+    `Window height:${window.innerHeight}`
+  );
+
+  if (window.innerWidth > window.innerHeight) {
+    console.log(`window.innerWidth > window.innerHeight`);
+    playingFieldStyle.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    playingFieldStyle.style.gridTemplateRovs = `repeat(${rows}, 1fr)`;
+  } else {
+    console.log(`window.innerWidth <= window.innerHeight`);
+    playingFieldStyle.style.gridTemplateColumns = `repeat(${rows}, 1fr)`;
+    playingFieldStyle.style.gridTemplateRovs = `repeat(${columns}, 1fr)`;
+  }
 
   //styling card Template
-  const cardStyle = document.querySelectorAll('.card');
+
   for (item of cardStyle) {
     item.style.width = `calc(60vmin / ${columns})`;
     item.style.height = `calc(70vmin / ${rows})`;
   }
+
+  // check screen orientation
 }
+
+window.addEventListener('resize', () => {
+  generatePalyingField(
+    playingField[cardsQuantityIndex][0],
+    playingField[cardsQuantityIndex][1]
+  );
+});
 
 // -------------------------------------------
 
