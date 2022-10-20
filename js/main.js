@@ -65,7 +65,7 @@ for (const radioBtn of nawRadioBtn) {
   });
 }
 
-const previewChechbox = document.querySelector('.checkbox__input');
+const previewCheckbox = document.querySelector('.checkbox__input');
 
 startBtn.addEventListener('click', startGameFromStartPage);
 
@@ -106,11 +106,11 @@ function startLevel() {
     }
   };
 
-  if (previewChechbox.checked) {
+  if (previewCheckbox.checked) {
     cards.forEach(card => {
-      card.classList.add('flip');
+      card.classList.add('flip', 'locked');
       setTimeout(() => {
-        card.classList.remove('flip');
+        card.classList.remove('flip', 'locked');
       }, cardsOpenTime(cardsQuantity));
     });
   }
