@@ -181,7 +181,7 @@ function createCardTemplate(item) {
     'beforeend',
     `
 		<div class="card" data-id="${item.split('.')[0]}">
-				<img class="card__front-face" src="../images/${item}" alt="" draggable="false">
+				<img class="card__front-face" src="./images/${item}" alt="" draggable="false">
 			<div class="card__back-face card__back-face-hon"></div>
 		</div>
 		`
