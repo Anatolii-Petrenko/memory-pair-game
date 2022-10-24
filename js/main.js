@@ -181,8 +181,8 @@ function createCardTemplate(item) {
     'beforeend',
     `
 		<div class="card" data-id="${item.split('.')[0]}">
-			<img class="card__front-face" src="./images/${item}" alt="" draggable="false">
-			<div class="card__back-face"></div>
+				<img class="card__front-face" src="../images/${item}" alt="" draggable="false">
+			<div class="card__back-face card__back-face-hon"></div>
 		</div>
 		`
   );
@@ -194,11 +194,12 @@ function generatePalyingField(rows, columns) {
 
   const cardStyle = document.querySelectorAll('.card');
 
-  console.log(
-    `Window width:${window.innerWidth}`,
-    `Window height:${window.innerHeight}`
-  );
+  // console.log(
+  //   `Window width:${window.innerWidth}`,
+  //   `Window height:${window.innerHeight}`
+  // );
 
+  // check screen orientation
   if (window.innerWidth > window.innerHeight) {
     console.log(`window.innerWidth > window.innerHeight`);
     playingFieldStyle.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
@@ -210,13 +211,10 @@ function generatePalyingField(rows, columns) {
   }
 
   //styling card Template
-
   for (item of cardStyle) {
     item.style.width = `calc(60vmin / ${columns})`;
     item.style.height = `calc(70vmin / ${rows})`;
   }
-
-  // check screen orientation
 }
 
 window.addEventListener('resize', () => {

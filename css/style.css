@@ -171,6 +171,7 @@ a.footer__content:hover {
 .checkbox {
   padding-left: 1.2em;
 }
+
 .checkbox__input {
   position: absolute;
   -webkit-appearance: none;
@@ -271,10 +272,12 @@ a.footer__content:hover {
   position: relative;
   background: var(--button-color);
   border-radius: 10px;
+  -webkit-transform: scale(1);
   transform: scale(1);
   -webkit-transition: -webkit-transform 600ms;
   -webkit-transition: transform 600ms;
   transition: transform 600ms;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   cursor: pointer;
 }
@@ -288,8 +291,8 @@ a.footer__content:hover {
 }
 
 .card.flip {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
   -webkit-transition: -webkit-transform 500ms;
   -webkit-transition: transform 500ms;
   transition: transform 500ms;
@@ -306,7 +309,7 @@ a.footer__content:hover {
   transform: rotateY(0deg);
 }
 
-.card__back-face:hover {
+.card__back-face-hon:hover {
   opacity: 0.8;
   border: 1px solid rgb(186, 186, 186);
   box-shadow: 2px 2px 6px var(--button-box-shadow-color);
@@ -320,6 +323,7 @@ a.footer__content:hover {
   padding: 15%;
   top: 0;
   left: 0;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
